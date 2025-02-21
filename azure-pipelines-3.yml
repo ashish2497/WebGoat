@@ -34,11 +34,16 @@ stages:
     pool:
       name : 'local'
     steps:
-        
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '3.x'
-        addToPath: true
+    - script: |
+        if ! command -v python3 &> /dev/null
+        then
+          echo "Python 3 could not be found, installing..."
+          sudo apt-get update
+          sudo apt-get install -y python3
+        else
+          echo "Python 3 is already installed"
+        fi
+      displayName: 'Ensure Python 3 is installed'
     - script: |
         if ! command -v az &> /dev/null
         then
