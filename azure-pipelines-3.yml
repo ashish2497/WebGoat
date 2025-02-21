@@ -48,12 +48,15 @@ stages:
           Write-Host "Azure CLI could not be found, installing..."
           Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile installAzureCLI.msi
           Start-Process msiexec.exe -ArgumentList '/I installAzureCLI.msi /quiet' -Wait
+          $env:PATH += ";C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin"
+          [Environment]::SetEnvironmentVariable("PATH", $env:PATH, [System.EnvironmentVariableTarget]::Machine)
         } else {
           Write-Host "Azure CLI is already installed"
         }
       displayName: 'Install Azure CLI if not already installed'
+      
     - powershell: |
-        $env:PATH += ";C:\Program Files\Python39\Scripts;C:\Program Files\Python39;C:\Users\sator\Downloads\vsts-agent-win-x64-4.251.0\_work\_tasks"
+        $env:PATH += ";C:\Program Files\Python39\Scripts;C:\Program Files\Python39"
         [Environment]::SetEnvironmentVariable("Path", $env:PATH, [System.EnvironmentVariableTarget]::Machine)
       displayName: 'Update PATH Environment Variable'
     
