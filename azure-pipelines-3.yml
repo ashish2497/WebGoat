@@ -53,7 +53,7 @@ stages:
         }
       displayName: 'Install Azure CLI if not already installed'
     - powershell: |
-        $env:PATH += ";C:\Program Files\Python39\Scripts;C:\Program Files\Python39"
+        $env:PATH += ";C:\Program Files\Python39\Scripts;C:\Program Files\Python39;C:\Users\sator\Downloads\vsts-agent-win-x64-4.251.0\_work\_tasks"
         [Environment]::SetEnvironmentVariable("Path", $env:PATH, [System.EnvironmentVariableTarget]::Machine)
       displayName: 'Update PATH Environment Variable'
     
