@@ -34,15 +34,14 @@ stages:
     pool:
       name : 'local'
     steps:
-    - script: |
-        if ! command -v python3 &> /dev/null
-        then
-          echo "Python 3 could not be found, installing..."
-          sudo apt-get update
-          sudo apt-get install -y python3
-        else
-          echo "Python 3 is already installed"
-        fi
+    - powershell: |
+        if (-not (Get-Command python3 -ErrorAction SilentlyContinue)) {
+          Write-Host "Python 3 could not be found, installing..."
+          Invoke-WebRequest -Uri https://www.python.org/ftp/python/3.9.1/python-3.9.1-amd64.exe -OutFile python-installer.exe
+          Start-Process -FilePath python-installer.exe -ArgumentList '/quiet InstallAllUsers=1 PrependPath=1' -Wait
+        } else {
+          Write-Host "Python 3 is already installed"
+        }
       displayName: 'Ensure Python 3 is installed'
     - script: |
         if ! command -v az &> /dev/null
