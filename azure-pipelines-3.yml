@@ -62,7 +62,7 @@ stages:
     - task: AzureCLI@2
       inputs:
        azureSubscription: 'Azure subscription 1(0c3061a0-6c31-4710-9a05-1f1925e07805)'
-       scriptType: 'bash'
+       scriptType: 'ps'
        scriptLocation: 'inlineScript'
        inlineScript: 'az acr login --name=$(containerRegistry)'
 
@@ -78,7 +78,7 @@ stages:
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'Azure subscription 1(0c3061a0-6c31-4710-9a05-1f1925e07805)'
-        scriptType: 'bash'
+        scriptType: 'ps'
         scriptLocation: 'inlineScript'
         inlineScript: |
           az container create \
