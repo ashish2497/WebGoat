@@ -11,6 +11,7 @@ resources:
 variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '72bf43a4-7a0c-404c-9dda-f95359e993a4'
+  containerRegistry: 'NAME.azurecr.io'
   imageRepository: 'ashishwebgoat'
   - task: AzureCLI@2
   inputs:
