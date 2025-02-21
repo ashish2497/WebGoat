@@ -6,14 +6,22 @@
 trigger:
 - main
 
-pool:
-  vmImage: ubuntu-latest
+
+pool: local
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+    addToPath: true
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    git config --global user.name 'Ashish dondapati'
+    git config --global user.email 'donda297@colostate.edu'
+    git clone $(https://github.com/ashish2497/repo)
+    cd repo
+    # Make your changes here
+    git add .
+    git commit -m "Automated commit from Azure Pipeline"
+    git push origin main
+  displayName: 'Commit changes to GitHub'
