@@ -31,7 +31,7 @@ stages:
   - job: Build
     displayName: Build
     pool:
-      vmImage: $(vmImageName)
+      name : 'local'
     steps:
     - task: AzureKeyVault@2
       inputs:
