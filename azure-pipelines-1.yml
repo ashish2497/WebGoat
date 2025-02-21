@@ -3,7 +3,7 @@ trigger:
 
 pool: local
 
-variables:
+#variables:
   #GITHUB_TOKEN: $(GITHUB_TOKEN)
   #CHECKMARX_PROJECT_NAME: 'WebGoat'
   #AI_SERVICE_ENDPOINT: 'your-ai-service-endpoint'
