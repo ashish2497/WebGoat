@@ -43,14 +43,14 @@ stages:
           Write-Host "Python 3 is already installed"
         }
       displayName: 'Ensure Python 3 is installed'
-    - script: |
-        if ! command -v az &> /dev/null
-        then
-          echo "Azure CLI could not be found, installing..."
-          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-        else
-          echo "Azure CLI is already installed"
-        fi
+    - powershell: |
+        if (-not (Get-Command az -ErrorAction SilentlyContinue)) {
+          Write-Host "Azure CLI could not be found, installing..."
+          Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile installAzureCLI.msi
+          Start-Process msiexec.exe -ArgumentList '/I installAzureCLI.msi /quiet' -Wait
+        } else {
+          Write-Host "Azure CLI is already installed"
+        }
       displayName: 'Install Azure CLI if not already installed'
     
     - task: AzureKeyVault@2
