@@ -12,7 +12,7 @@ variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '067f4c73-01a4-4dc0-bec6-e8645da342c2'
   imageRepository: 'image1'
-  pass: '$(pass)'
+  
   containerRegistry: 'registryash.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   
@@ -38,7 +38,7 @@ stages:
       inputs:
         azureSubscription: 'Azure subscription 1(0c3061a0-6c31-4710-9a05-1f1925e07805)'
         KeyVaultName: 'vaultashishdonda'
-        SecretsFilter: 'dockerRegistryServiceConnection,pass'
+        SecretsFilter: 'pass'
         RunAsPreJob: true
     - task: AzureCLI@2
       inputs:
