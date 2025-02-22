@@ -59,7 +59,7 @@ stages:
         if (-not (Get-Command mvn -ErrorAction SilentlyContinue)) {
           Write-Host "Maven could not be found, installing..."
           Invoke-WebRequest -Uri https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.zip -OutFile maven.zip
-          Expand-Archive -Path maven.zip -DestinationPath C:\Maven
+          Expand-Archive -Path maven.zip -DestinationPath C:\Maven -Force
           $env:PATH += ";C:\Maven\apache-maven-3.9.9\bin"
           [Environment]::SetEnvironmentVariable("PATH", $env:PATH, [System.EnvironmentVariableTarget]::Machine)
         } else {
