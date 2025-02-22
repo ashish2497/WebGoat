@@ -14,7 +14,7 @@ variables:
   imageRepository: 'image1'
   
   containerRegistry: 'registryash.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile_desktope'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   
   tag: '$(Build.BuildId)' 
 
