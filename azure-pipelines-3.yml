@@ -67,7 +67,7 @@ stages:
        azureSubscription: 'Azure subscription 1(0c3061a0-6c31-4710-9a05-1f1925e07805)'
        scriptType: 'ps'
        scriptLocation: 'inlineScript'
-       inlineScript: 'az acr login --name=$(containerRegistry)'
+       inlineScript: 'az acr login -n registryash --expose-token'
 
     - task: Docker@2
       displayName: Build and push an image to container registry
