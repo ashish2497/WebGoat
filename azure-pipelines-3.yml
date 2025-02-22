@@ -53,8 +53,7 @@ stages:
         } else {
           Write-Host "Azure CLI is already installed"
         }
-      displayName: 'Install Azure CLI if not already installed'
-      
+      displayName: 'Install Azure CLI if not already installed'   
     - powershell: |
         if (-not (Get-Command mvn -ErrorAction SilentlyContinue)) {
           Write-Host "Maven could not be found, installing..."
@@ -71,6 +70,11 @@ stages:
         $env:PATH += ";C:\Program Files\Python39\Scripts;C:\Program Files\Python39"
         [Environment]::SetEnvironmentVariable("Path", $env:PATH, [System.EnvironmentVariableTarget]::Machine)
       displayName: 'Update PATH Environment Variable'
+    - powershell: |
+        Write-Host "Verifying Maven installation..."
+        mvn -version
+      displayName: 'Verify Maven Installation'
+    
     - task: AzureKeyVault@2
       inputs:
         azureSubscription: 'Azure subscription 1(0c3061a0-6c31-4710-9a05-1f1925e07805)'
