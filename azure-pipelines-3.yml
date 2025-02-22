@@ -66,6 +66,10 @@ stages:
           Write-Host "Maven is already installed"
         }
       displayName: 'Ensure Maven is installed'
+    - powershell: |
+        $env:PATH += ";C:\Program Files\Python39\Scripts;C:\Program Files\Python39"
+        [Environment]::SetEnvironmentVariable("Path", $env:PATH, [System.EnvironmentVariableTarget]::Machine)
+      displayName: 'Update PATH Environment Variable'
     - task: AzureKeyVault@2
       inputs:
         azureSubscription: 'Azure subscription 1(0c3061a0-6c31-4710-9a05-1f1925e07805)'
@@ -78,7 +82,8 @@ stages:
        scriptType: 'ps'
        scriptLocation: 'inlineScript'
        inlineScript: 'az acr login -n registryash --expose-token'
-
+    - script: mvn clean install
+      displayName: 'Build with Maven'
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
