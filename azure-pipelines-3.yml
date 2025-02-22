@@ -12,7 +12,7 @@ variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '067f4c73-01a4-4dc0-bec6-e8645da342c2'
   imageRepository: 'image1'
-  
+  agentpath : C:\Users\sator\Downloads\vsts-agent-win-x64-4.251.0
   containerRegistry: 'registryash.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   
@@ -58,9 +58,9 @@ stages:
         if (-not (Get-Command mvn -ErrorAction SilentlyContinue)) {
           Write-Host "Maven could not be found, installing..."
           Invoke-WebRequest -Uri https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.zip -OutFile maven.zip
-          Expand-Archive -Path maven.zip -DestinationPath C:\Maven -Force
-          [Environment]::SetEnvironmentVariable("MAVEN_HOME", "C:\Maven\apache-maven-3.9.9", [System.EnvironmentVariableTarget]::Machine)
-          $env:PATH += ";C:\Maven\apache-maven-3.9.9\bin"
+          Expand-Archive -Path maven.zip -DestinationPath $(agentPath)\Maven -Force
+          [Environment]::SetEnvironmentVariable("MAVEN_HOME", "$(agentPath)\Maven\apache-maven-3.9.9", [System.EnvironmentVariableTarget]::Machine)
+          $env:PATH += ";$(agentPath)\Maven\apache-maven-3.9.9\bin"
           [Environment]::SetEnvironmentVariable("PATH", $env:PATH, [System.EnvironmentVariableTarget]::Machine)
         } else {
           Write-Host "Maven is already installed"
@@ -72,7 +72,7 @@ stages:
       displayName: 'Update PATH Environment Variable'
     - powershell: |
         Write-Host "Verifying Maven installation..."
-        mvn -version
+        & "$(agentPath)\Maven\apache-maven-3.9.9\bin\mvn.cmd" -version
       displayName: 'Verify Maven Installation'
     
     - task: AzureKeyVault@2
@@ -88,6 +88,9 @@ stages:
        scriptLocation: 'inlineScript'
        inlineScript: 'az acr login -n registryash --expose-token'
  
+    - script: |
+        & "$(agentPath)\Maven\apache-maven-3.9.9\bin\mvn.cmd" clean install
+      displayName: 'Build with Maven'
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
