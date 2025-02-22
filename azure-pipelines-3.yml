@@ -55,7 +55,17 @@ stages:
         }
       displayName: 'Install Azure CLI if not already installed'
       
-    
+    - powershell: |
+        if (-not (Get-Command mvn -ErrorAction SilentlyContinue)) {
+          Write-Host "Maven could not be found, installing..."
+          Invoke-WebRequest -Uri https://downloads.apache.org/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.zip -OutFile maven.zip
+          Expand-Archive -Path maven.zip -DestinationPath C:\Maven
+          $env:PATH += ";C:\Maven\apache-maven-3.8.4\bin"
+          [Environment]::SetEnvironmentVariable("PATH", $env:PATH, [System.EnvironmentVariableTarget]::Machine)
+        } else {
+          Write-Host "Maven is already installed"
+        }
+      displayName: 'Ensure Maven is installed'
     - task: AzureKeyVault@2
       inputs:
         azureSubscription: 'Azure subscription 1(0c3061a0-6c31-4710-9a05-1f1925e07805)'
